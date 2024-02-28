@@ -8,6 +8,7 @@ import { Loader } from './Loader/Loader';
 import { fetchPictures } from '../api';
 import { nanoid } from 'nanoid';
 import { LoadMoreBtn } from './LoadMoreBtn/LoadMoreBtn';
+import { ImageModal } from './ImageModal/ImageModal';
 
 export const App = () => {
   const [pictures, setPictures] = useState([]);
@@ -17,6 +18,21 @@ export const App = () => {
   const [page, setPage] = useState(1);
   const [visualBtn, setVisualBtn] = useState(false);
   const [isEmpty, setIsEmpty] = useState(false);
+  const [winModalIsOpen, setwinModalIsOpen] = useState(false);
+  const [modalUrl, setmodalUrl] = useState("")
+  const [modalAlt, setmodalAlt] = useState("")
+
+  const handleOpenModal = (url, alt)=>{
+    setwinModalIsOpen(true)
+    setmodalUrl(url)
+    setmodalAlt(alt)
+  }
+
+  const handleCloseModal = ()=>{
+    setwinModalIsOpen(false)
+    setmodalUrl("")
+    setmodalAlt("")
+  }
 
   const searchPictures = async newQuery => {
     setQuery(`${nanoid()}/${newQuery}`);
@@ -58,10 +74,18 @@ export const App = () => {
         <SearchBar onSearch={searchPictures} />
       </header>
       {error && <ErrorMessage />}
-      {pictures.length > 0 && <ImageGallery items={pictures} />}
+      {pictures.length > 0 && (
+      <ImageGallery items={pictures} openModal={handleOpenModal} />
+      )}
       {isEmpty && <MessageNotFound />}
       {loading && <Loader />}
       {visualBtn && <LoadMoreBtn clickBtn={handleLoadMore} />}
+      <ImageModal
+      isOpen={winModalIsOpen}
+      onClose={handleCloseModal}
+      url={modalUrl}
+      alt={modalAlt}
+      />
       <Toaster position="bottom-center" />
     </div>
   );

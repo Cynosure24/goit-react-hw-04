@@ -16,10 +16,10 @@ const customStyles = {
   },
 };
 
-export const ImageModal = ({ isOpen, onClose, pic }) => {
+export const ImageModal = ({ isOpen, onClose, url, alt }) => {
   return (
     <Modal isOpen={isOpen} onRequestClose={onClose} style={customStyles} ariaHideApp={false}>
-      <img src={pic} />
+      <img src={url} alt={alt}/>
     </Modal>
   );
 };

@@ -1,23 +1,16 @@
-import { useState } from 'react';
 import css from './ImageCard.module.css';
-import { ImageModal } from '../ImageModal/ImageModal';
 
-export const ImageCard = ({ picSmall, picRegular, description }) => {
-  const [winModalIsOpen, setWinModalIsOpen] = useState(false);
-
+export const ImageCard = ({ picSmall, picRegular, description, openModal }) => {
   return (
-    <div className={css.imageCard}>
+    <div 
+    className={css.imageCard}
+    onClick={() => openModal(picRegular, description)}
+    >
       <img
         className={css.img}
         src={picSmall}
         alt={description}
-        onClick={() => setWinModalIsOpen(true)}
         loading="lazy"
-      />
-      <ImageModal
-        pic={picRegular}
-        isOpen={winModalIsOpen}
-        onClose={() => setWinModalIsOpen(false)}
       />
     </div>
   );
